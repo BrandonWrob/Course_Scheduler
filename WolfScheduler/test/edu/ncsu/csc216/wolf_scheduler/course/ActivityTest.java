@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
+ * Test the Activity Class for handleing conflicts between activities
  * 
+ * @author Brandon Wroblewski
  */
 class ActivityTest {
 

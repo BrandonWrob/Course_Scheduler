@@ -7,7 +7,7 @@ package edu.ncsu.csc216.wolf_scheduler.course;
  * 
  * @author Brandon Wroblewski
  */
-public abstract class Activity implements Conflict{
+public abstract class Activity implements Conflict {
 
 	/** Course's title. */
 	private String title;
