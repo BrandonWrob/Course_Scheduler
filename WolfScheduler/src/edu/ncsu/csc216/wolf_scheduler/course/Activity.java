@@ -7,7 +7,7 @@ package edu.ncsu.csc216.wolf_scheduler.course;
  * 
  * @author Brandon Wroblewski
  */
-public abstract class Activity {
+public abstract class Activity implements Conflict{
 
 	/** Course's title. */
 	private String title;
@@ -162,6 +162,12 @@ public abstract class Activity {
 		}
 		// returns the standard time in proper format
 		return Integer.toString(hours) + ":" + stringM + timeFormat;
+	}
+
+	@Override
+	public void checkConflict(Activity possibleConflictingActivity) throws ConflictException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
