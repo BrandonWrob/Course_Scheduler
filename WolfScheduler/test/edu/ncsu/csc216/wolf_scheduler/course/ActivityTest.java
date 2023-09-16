@@ -32,10 +32,10 @@ class ActivityTest {
 	    Activity a2 = new Course("CSC 216", "Software Development Fundamentals", "001", 3, "sesmith5", "M", 1330, 1445);
 		
 	    Exception e1 = assertThrows(ConflictException.class, () -> a1.checkConflict(a2));
-	    assertEquals("Schedule conflict.", e1.getMessage());
+	    assertEquals("The event cannot be added due to a conflict.", e1.getMessage());
 		
 	    Exception e2 = assertThrows(ConflictException.class, () -> a2.checkConflict(a1));
-	    assertEquals("Schedule conflict.", e2.getMessage());
+	    assertEquals("The event cannot be added due to a conflict.", e2.getMessage());
 	}
 	
 	/**
