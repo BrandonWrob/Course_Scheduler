@@ -175,8 +175,12 @@ public abstract class Activity implements Conflict {
 	    // Check if the two activities share a similar meet day
 		for (int i = 0; i < meetingDays.length(); i++) {
 			char tempDay = meetingDays.charAt(i);
+			// if they share a similar meeting day it confirms they don't have overlapping times
 			if (possibleConflictingActivity.meetingDays.indexOf(tempDay) != -1) {
-				// if they share a meeting day it checks if the times overlap
+				if (this.startTime == possibleConflictingActivity.startTime) {
+	                // Both activities start at the same time, so throw a ConflictException
+	                throw new ConflictException("Schedule conflict.");
+	            }
 				if (this.startTime <= possibleConflictingActivity.startTime &&
 		                this.endTime >= possibleConflictingActivity.startTime) {
 		                // There is a time overlap, so throw a ConflictException
@@ -187,6 +191,7 @@ public abstract class Activity implements Conflict {
 		                // There is a time overlap, so throw a ConflictException
 		                throw new ConflictException("Schedule conflict.");
 		        }
+				
 			}
 		}
 	}
