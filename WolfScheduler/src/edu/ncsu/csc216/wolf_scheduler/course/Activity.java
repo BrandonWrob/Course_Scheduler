@@ -87,31 +87,40 @@ public abstract class Activity implements Conflict {
 	 * end time, and days must be either A, M, T, W, H, F)
 	 */
 	public void setMeetingDaysAndTime(String meetingDays, int startTime, int endTime) {
-		// throws exception if meetingDays is empty or null
-		if (meetingDays == null || "".equals(meetingDays)) {
-			throw new IllegalArgumentException("Invalid meeting days and times.");
-		}
-		// breaks military time into hours/minutes
-		int startH = startTime / 100;
-		int startM = startTime % 100;
-		int endH = endTime / 100;
-		int endM = endTime % 100;
-		// throws exception if hours/minutes format is wrong
-		if (startH > UPPER_HOUR || endH > UPPER_HOUR || startM > UPPER_MINUTE || endM > UPPER_MINUTE) {
-			throw new IllegalArgumentException("Invalid meeting days and times.");
-		}
-		// throws exception if start time is greater than end time
-		if (startTime > endTime) {
-			throw new IllegalArgumentException("Invalid meeting days and times.");
-		}
-		// throws exception if start or end time is negative
-		if (startTime < 0 || endTime < 0) {
-			throw new IllegalArgumentException("Invalid meeting days and times.");
-		}
-		// sets fields
-		this.meetingDays = meetingDays;
-		this.startTime = startTime;
-		this.endTime = endTime;
+	    // throws exception if meetingDays is empty or null
+	    if (meetingDays == null || "".equals(meetingDays)) {
+	        throw new IllegalArgumentException("Invalid meeting days and times.");
+	    }
+	    
+	    // If meetingDays is "Arranged," ensure startTime and endTime are both 0
+	    if ("A".equals(meetingDays)) {
+	        if (startTime != 0 || endTime != 0) {
+	            throw new IllegalArgumentException("Invalid meeting days and times.");
+	        }
+	    } else {
+	        // Meeting days are not "Arranged," validate them
+	        // breaks military time into hours/minutes
+	        int startH = startTime / 100;
+	        int startM = startTime % 100;
+	        int endH = endTime / 100;
+	        int endM = endTime % 100;
+	        // throws exception if hours/minutes format is wrong
+	        if (startH > UPPER_HOUR || endH > UPPER_HOUR || startM > UPPER_MINUTE || endM > UPPER_MINUTE) {
+	            throw new IllegalArgumentException("Invalid meeting days and times.");
+	        }
+	        // throws exception if start time is greater than end time
+	        if (startTime > endTime) {
+	            throw new IllegalArgumentException("Invalid meeting days and times.");
+	        }
+	        // throws exception if start or end time is negative
+	        if (startTime < 0 || endTime < 0) {
+	            throw new IllegalArgumentException("Invalid meeting days and times.");
+	        }
+	    }
+	    // sets fields
+	    this.meetingDays = meetingDays;
+	    this.startTime = startTime;
+	    this.endTime = endTime;
 	}
 
 	/**
@@ -172,6 +181,10 @@ public abstract class Activity implements Conflict {
 	 */
 	@Override
 	public void checkConflict(Activity possibleConflictingActivity) throws ConflictException {
+		// Check if either activity has "Arranged" meeting days, no need to check for conflict if so
+	    if ("A".equals(meetingDays) || "A".equals(possibleConflictingActivity.meetingDays)) {
+	        return;
+	    }
 	    // Check if the two activities share a similar meet day
 		for (int i = 0; i < meetingDays.length(); i++) {
 			char tempDay = meetingDays.charAt(i);

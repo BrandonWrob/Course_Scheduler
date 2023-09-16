@@ -91,4 +91,26 @@ class ActivityTest {
         Exception e = assertThrows(ConflictException.class, () -> a1.checkConflict(a1));
         assertEquals("Schedule conflict.", e.getMessage());
     }
+	
+	/**
+	 * Test that it throws nothing for one arranged meeting days
+	 */
+	@Test
+	public void testCheckNoConflictWithOneArranged() {
+	    Activity a1 = new Course("CSC 216", "Software Development Fundamentals", "001", 3, "sesmith5", "A", 0, 0);
+	    Activity a2 = new Course("CSC 216", "Software Development Fundamentals", "001", 3, "sesmith5", "M", 1330, 1445);
+	    assertDoesNotThrow(() -> a1.checkConflict(a2));
+	    assertDoesNotThrow(() -> a2.checkConflict(a1));
+	}
+	
+	/**
+	 * Test that it throws nothing for both arranged meeting days
+	 */
+	@Test
+	public void testCheckNoConflictWithBothArranged() {
+	    Activity a1 = new Course("CSC 216", "Software Development Fundamentals", "001", 3, "sesmith5", "A", 0, 0);
+	    Activity a2 = new Course("CSC 216", "Software Development Fundamentals", "001", 3, "sesmith5", "A", 0, 0);
+	    assertDoesNotThrow(() -> a1.checkConflict(a2));
+	    assertDoesNotThrow(() -> a2.checkConflict(a1));
+	}
 }
