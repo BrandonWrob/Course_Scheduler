@@ -180,12 +180,12 @@ public abstract class Activity implements Conflict {
 				if (this.startTime <= possibleConflictingActivity.startTime &&
 		                this.endTime >= possibleConflictingActivity.startTime) {
 		                // There is a time overlap, so throw a ConflictException
-		                throw new ConflictException("The event cannot be added due to a conflict.");
+		                throw new ConflictException("Schedule conflict.");
 		        }
 				if (this.startTime >= possibleConflictingActivity.startTime &&
 		                this.startTime <= possibleConflictingActivity.endTime) {
 		                // There is a time overlap, so throw a ConflictException
-		                throw new ConflictException("The event cannot be added due to a conflict.");
+		                throw new ConflictException("Schedule conflict.");
 		        }
 			}
 		}
