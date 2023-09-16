@@ -164,10 +164,31 @@ public abstract class Activity implements Conflict{
 		return Integer.toString(hours) + ":" + stringM + timeFormat;
 	}
 
+	/**
+	 * Checks for a schedule conflict with a given activity.
+	 * 
+	 * @param possibleConflictingActivity The activity to check for a schedule conflict with.
+	 * @throws ConflictException If a schedule conflict is detected, a ConflictException is thrown.
+	 */
 	@Override
 	public void checkConflict(Activity possibleConflictingActivity) throws ConflictException {
-		// TODO Auto-generated method stub
-		
+	    // Check if the two activities share a similar meet day
+		for (int i = 0; i < meetingDays.length(); i++) {
+			char tempDay = meetingDays.charAt(i);
+			if (possibleConflictingActivity.meetingDays.indexOf(tempDay) != -1) {
+				// if they share a meeting day it checks if the times overlap
+				if (this.startTime <= possibleConflictingActivity.startTime &&
+		                this.endTime >= possibleConflictingActivity.startTime) {
+		                // There is a time overlap, so throw a ConflictException
+		                throw new ConflictException("Schedule conflict.");
+		        }
+				if (this.startTime >= possibleConflictingActivity.startTime &&
+		                this.startTime <= possibleConflictingActivity.endTime) {
+		                // There is a time overlap, so throw a ConflictException
+		                throw new ConflictException("Schedule conflict.");
+		        }
+			}
+		}
 	}
 
 	/**
