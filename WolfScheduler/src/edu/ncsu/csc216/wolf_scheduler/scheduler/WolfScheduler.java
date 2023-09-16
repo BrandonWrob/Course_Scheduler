@@ -9,6 +9,7 @@ import edu.ncsu.csc216.wolf_scheduler.course.Event;
 import edu.ncsu.csc216.wolf_scheduler.io.ActivityRecordIO;
 import edu.ncsu.csc216.wolf_scheduler.io.CourseRecordIO;
 import edu.ncsu.csc216.wolf_scheduler.course.Activity;
+import edu.ncsu.csc216.wolf_scheduler.course.ConflictException;
 
 /**
  * The WolfScheduler class represents a scheduler which can be used to
@@ -174,6 +175,13 @@ public class WolfScheduler {
 	        	// different sections
 	            throw new IllegalArgumentException("You are already enrolled in " + name);
 	        }
+	        try {
+	            // Checks for time conflicts
+	            activityFromSchedule.checkConflict(activityToAdd);
+	        } catch (ConflictException e) {
+	            // Catch ConflictException and throw IllegalArgumentException with the specified message
+	            throw new IllegalArgumentException("The course cannot be added due to a conflict.");
+	        }
 	    }
 	    // If the course is found in the catalog, add it to the schedule and return true
 	    if (activityToAdd != null) {
@@ -202,6 +210,13 @@ public class WolfScheduler {
 	    for (Activity activityFromSchedule : schedule) {
 	        if (activityFromSchedule.isDuplicate(eventToAdd)) {
 	            throw new IllegalArgumentException("You have already created an event called " + eventTitle);
+	        }
+	        try {
+	            // Checks for time conflicts
+	            activityFromSchedule.checkConflict(eventToAdd);
+	        } catch (ConflictException e) {
+	            // Catch ConflictException and throw IllegalArgumentException with the specified message
+	            throw new IllegalArgumentException("The event cannot be added due to a conflict.");
 	        }
 	    }
 	    // Add the event to the schedule
