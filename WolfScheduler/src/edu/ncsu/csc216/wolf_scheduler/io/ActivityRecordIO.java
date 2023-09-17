@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import edu.ncsu.csc216.wolf_scheduler.course.Activity;
 
 /**
+ * Default constructor for the ActivityRecordIO class.
  * Writes activities to file.
  * @author Brandon Wroblewski
  */
 public class ActivityRecordIO {
 
     /**
-     * Writes the given list of Courses to 
+     * Writes the given list of Courses 
      * @param fileName file to save to
      * @param activities list of course to save
      * @throws IOException if the file cannot be written
